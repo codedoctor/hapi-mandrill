@@ -1,7 +1,7 @@
 {
   "name": "hapi-mandrill",
   "description": "HAPI plugin that exposes mandrill api - used to send transactional emails.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "main": "lib/index.js",
   "repository": {
