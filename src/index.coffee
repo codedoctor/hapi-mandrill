@@ -18,10 +18,13 @@ module.exports.register = (plugin, options = {}, cb) ->
   mandrillClient = null
   templateNameMapping = options.templateNameMap
 
+  ###
+  This is lenient to simplify testing.
+  ###
   if options.key
     mandrillClient = new mandrill.Mandrill options.key
   else
-    console.log "Email sending DISABLED - missing 'key' options"
+    plugin.log ['configuration','warning'], i18n.emailSendDisabled 
 
   send = (receiverName,receiverEmail,payload = {},subject,templateName,cb = ->) ->
     templateContent = []
@@ -50,11 +53,11 @@ module.exports.register = (plugin, options = {}, cb) ->
         inline_css: true
 
     success = (result) ->
-      plugin.log ['mandrill','email-sent'],"Email queued", result
+      plugin.log ['mandrill','email-sent'],i18n.emailQueuedSuccess, result
       cb null,result
 
     error = (err) ->
-      plugin.log ['mandrill','email-not-sent','error'],"Failed to queue email.", err
+      plugin.log ['mandrill','email-not-sent','error'],i18n.emailNotQueuedFailure, err
       cb err
 
     if mandrillClient

@@ -10,6 +10,9 @@ module.exports = loadServer = (cb) ->
         options:
           senderName: "John Smith"
           senderEmail: "john@smith.com"
+          key : null # Keep null for testing
+          templateNameMapping: 
+            "from" : "toInMandrill"
     ]
 
     server.pack.register pluginConf, (err) ->
