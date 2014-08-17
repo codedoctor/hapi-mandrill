@@ -77,6 +77,7 @@ plugin.templateNameMapping = {...}
 * [hapi-routes-authorization-and-session-management](https://github.com/codedoctor/hapi-routes-authorization-and-session-management)
 * [hapi-routes-oauth-management](https://github.com/codedoctor/hapi-routes-oauth-management)
 * [hapi-routes-roles](https://github.com/codedoctor/hapi-routes-roles)
+* [hapi-routes-status](https://github.com/codedoctor/hapi-routes-status)
 * [hapi-routes-users-authorizations](https://github.com/codedoctor/hapi-routes-users-authorizations)
 * [hapi-routes-users](https://github.com/codedoctor/hapi-routes-users)
 * [hapi-user-store-multi-tenant](https://github.com/codedoctor/hapi-user-store-multi-tenant)
