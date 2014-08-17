@@ -57,6 +57,15 @@ Mandrill templates are often managed by third parties, you don't want them to br
 To do so, set the 'templateNameMap' object to internal : external pairs. If none is defined, or a
 key is not found it will be passed verbatim.
 
+## Exposed Properties
+```Coffeescript
+plugin = server.pack.plugins['hapi-mandrill']
+
+plugin.mandrillClient # Note this is null if you do not pass a key in options
+plugin.send(...)
+plugin.templateNameMapping = {...}
+
+```
 
 ## See also
 
