@@ -43,7 +43,9 @@ server.pack.register pluginConf, (err) ->
 fnCallback = (err,result) ->
   # Do some stuff when done.
 
-server.pack.plugins['hapi-mandrill'].send("Angelina Jolie","angelina@jolie.com", {some: "payoad"},"Hello Angelina","angelina-template", fnCallback)
+plugin = server.pack.plugins['hapi-mandrill']
+
+plugin.send("Angelina Jolie","angelina@jolie.com", {some: "payoad"},"Hello Angelina","angelina-template", fnCallback)
 
 ```
 
