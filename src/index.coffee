@@ -26,7 +26,9 @@ module.exports.register = (plugin, options = {}, cb) ->
   else
     plugin.log ['configuration','warning'], i18n.emailSendDisabled 
 
-  send = (receiverName,receiverEmail,payload = {},subject,templateName,cb = ->) ->
+  send = (receiverName,receiverEmail,payload = {},subject,templateName,cb2 = ->) ->
+
+    console.log "CALLING SEND"
     templateContent = []
     for k in _.keys payload
       templateContent.push 
@@ -34,6 +36,7 @@ module.exports.register = (plugin, options = {}, cb) ->
         content: payload[k]
 
     templateName = templateNameMapping[templateName] || templateName # If it is mapped, take the mapped one, otherwise pass it 1:1
+
 
     sendTemplateOptions = 
       template_name: templateName
@@ -54,11 +57,11 @@ module.exports.register = (plugin, options = {}, cb) ->
 
     success = (result) ->
       plugin.log ['mandrill','email-sent'],i18n.emailQueuedSuccess, result
-      cb null,result
+      cb2 null,result
 
     error = (err) ->
       plugin.log ['mandrill','email-not-sent','error'],i18n.emailNotQueuedFailure, err
-      cb err
+      cb2 err
 
     if mandrillClient
       mandrillClient.messages.sendTemplate sendTemplateOptions, success,error
