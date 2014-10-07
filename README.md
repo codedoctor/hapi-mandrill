@@ -45,7 +45,7 @@ fnCallback = (err,result) ->
 
 plugin = server.pack.plugins['hapi-mandrill']
 
-plugin.send("Angelina Jolie","angelina@jolie.com", {some: "payoad"},"Hello Angelina","angelina-template", fnCallback)
+plugin.send("Angelina Jolie","angelina@jolie.com", {some: "payload"},"Hello Angelina","angelina-template", fnCallback)
 
 ```
 

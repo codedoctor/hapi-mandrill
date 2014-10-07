@@ -34,6 +34,7 @@ module.exports = (grunt) ->
         options:
           reporter: 'spec'
           require: 'coffee-script/register'
+          timeout: 10000
         src: ['test/**/*-tests.coffee']
     mochacov:
       options:

@@ -28,7 +28,6 @@ module.exports.register = (plugin, options = {}, cb) ->
 
   send = (receiverName,receiverEmail,payload = {},subject,templateName,cb2 = ->) ->
 
-    console.log "CALLING SEND"
     templateContent = []
     for k in _.keys payload
       templateContent.push 

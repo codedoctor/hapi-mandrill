@@ -13,6 +13,7 @@ module.exports = loadServer = (cb) ->
           key : null # Keep null for testing
           templateNameMapping: 
             "from" : "toInMandrill"
+            "passwordReset" : 'passwordreset'
     ]
 
     server.pack.register pluginConf, (err) ->
