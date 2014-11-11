@@ -34,6 +34,12 @@ module.exports.register = (plugin, options = {}, cb) ->
     console.log "Payload: #{JSON.stringify(payload)}" if options.verbose
     console.log "Subject: #{subject}" if options.verbose
 
+    global_merge_vars = payload.global_merge_vars
+    merge_vars = payload.merge_vars
+
+    delete payload.global_merge_vars
+    delete payload.merge_vars
+
     templateContent = []
     for k in _.keys payload
       templateContent.push 
@@ -60,6 +66,9 @@ module.exports.register = (plugin, options = {}, cb) ->
         auto_text: true
         auto_html: true
         inline_css: true
+
+    sendTemplateOptions.message.global_merge_vars = global_merge_vars if global_merge_vars
+    sendTemplateOptions.message.merge_vars = merge_vars if merge_vars
 
     success = (result) ->
       console.log "Mandrill success: #{JSON.stringify(result)}" if options.verbose
