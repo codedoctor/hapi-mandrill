@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/codedoctor/hapi-mandrill.svg)](https://gemnasium.com/codedoctor/hapi-mandrill)
 [![NPM Downloads](http://img.shields.io/npm/dm/hapi-mandrill.svg)](https://www.npmjs.org/package/hapi-mandrill)
 [![Issues](http://img.shields.io/github/issues/codedoctor/hapi-mandrill.svg)](https://github.com/codedoctor/hapi-mandrill/issues)
-[![HAPI 6.0](http://img.shields.io/badge/hapi-6.0-blue.svg)](http://hapijs.com)
+[![HAPI 8.0](http://img.shields.io/badge/hapi-8.0-blue.svg)](http://hapijs.com)
 [![API Documentation](http://img.shields.io/badge/API-Documentation-ff69b4.svg)](http://coffeedoc.info/github/codedoctor/hapi-mandrill)
 
 (C) 2014 Martin Wawrusch

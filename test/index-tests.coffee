@@ -19,8 +19,7 @@ describe 'WHEN index has been loaded', ->
       return cb err if err
 
       should.exist server
-      server.should.have.property "pack"
 
-      should.exist server.pack.plugins['hapi-mandrill']
+      should.exist server.plugins['hapi-mandrill']
 
       cb null

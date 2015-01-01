@@ -3,10 +3,13 @@ Hapi = require "hapi"
 _ = require 'underscore'
 
 module.exports = loadServer = (cb) ->
-    server = new Hapi.Server 5675,"localhost",{}
+    server = new Hapi.Server()
+    server.connection
+      port: 5675
+      host: "localhost"
 
     pluginConf = [
-        plugin: index
+        register: index
         options:
           senderName: "John Smith"
           senderEmail: "john@smith.com"
@@ -16,5 +19,5 @@ module.exports = loadServer = (cb) ->
             "passwordReset" : 'passwordreset'
     ]
 
-    server.pack.register pluginConf, (err) ->
+    server.register pluginConf, (err) ->
       cb err,server

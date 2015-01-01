@@ -14,7 +14,7 @@ describe 'WHEN index has been loaded', ->
       loadServer (err,serverResult) ->
         return cb err if err
         server = serverResult
-        mandrillPlugin = server.pack.plugins['hapi-mandrill']
+        mandrillPlugin = server.plugins['hapi-mandrill']
         cb null
 
     it 'should send email', (cb) ->

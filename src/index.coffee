@@ -6,7 +6,7 @@ i18n = require './i18n'
 ###
 Registers the plugin.  
 ###
-module.exports.register = (plugin, options = {}, cb) ->
+module.exports.register = (server, options = {}, cb) ->
   Hoek.assert options.senderName, i18n.optionsSenderNameRequired
   Hoek.assert options.senderEmail, i18n.optionsSenderEmailRequired
 
@@ -27,7 +27,7 @@ module.exports.register = (plugin, options = {}, cb) ->
     console.log "Mandrill active with #{options.key}" if options.verbose
   else
     console.log "Mandrill disabled - no key" if options.verbose
-    plugin.log ['configuration','warning'], i18n.emailSendDisabled 
+    server.log ['configuration','warning'], i18n.emailSendDisabled 
 
   send = (receiverName,receiverEmail,payload = {},subject,templateName,cb2 = ->) ->
     console.log "Sending to: #{receiverName} / #{receiverEmail} / #{templateName}" if options.verbose
@@ -73,13 +73,13 @@ module.exports.register = (plugin, options = {}, cb) ->
     success = (result) ->
       console.log "Mandrill success: #{JSON.stringify(result)}" if options.verbose
 
-      plugin.log ['mandrill','email-sent'],i18n.emailQueuedSuccess, result
+      server.log ['mandrill','email-sent'],i18n.emailQueuedSuccess, result
       cb2 null,result
 
     error = (err) ->
       console.log "Mandrill error: #{JSON.stringify(err)}" if options.verbose
 
-      plugin.log ['mandrill','email-not-sent','error'],i18n.emailNotQueuedFailure, err
+      server.log ['mandrill','email-not-sent','error'],i18n.emailNotQueuedFailure, err
       cb2 err
 
     if mandrillClient
@@ -89,9 +89,9 @@ module.exports.register = (plugin, options = {}, cb) ->
       console.log "Faking mandrill send" if options.verbose
       success {} # Mock mode, need to think about result
 
-  plugin.expose 'mandrillClient', mandrillClient
-  plugin.expose 'send', send
-  plugin.expose 'templateNameMapping', templateNameMapping
+  server.expose 'mandrillClient', mandrillClient
+  server.expose 'send', send
+  server.expose 'templateNameMapping', templateNameMapping
 
   cb()
 
