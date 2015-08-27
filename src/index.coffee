@@ -24,15 +24,16 @@ module.exports.register = (server, options = {}, cb) ->
   ###
   if options.key
     mandrillClient = new mandrill.Mandrill options.key
-    console.log "Mandrill active with #{options.key}" if options.verbose
+    server.log ['info','plugin','startup','hapi-mandrill'], "Email send ENABLED with key #{options.key}"  if options.verbose
   else
-    console.log "Mandrill disabled - no key" if options.verbose
-    server.log ['configuration','warning'], i18n.emailSendDisabled 
+    server.log ['info','plugin','startup','hapi-mandrill'], "Email send DISABLED - missing 'key' in options - success callback will still be invoked but no emails go out."  if options.verbose
 
   send = (receiverName,receiverEmail,payload = {},subject,templateName,cb2 = ->) ->
-    console.log "Sending to: #{receiverName} / #{receiverEmail} / #{templateName}" if options.verbose
-    console.log "Payload: #{JSON.stringify(payload)}" if options.verbose
-    console.log "Subject: #{subject}" if options.verbose
+    # NOT SURE ABOUT receiver name
+    Hoek.assert _.isString(receiverEmail),"The required parameter receiverEmail is missing or not a string."
+    Hoek.assert _.isString(subject),"The required parameter subject is missing or not a string."
+    Hoek.assert _.isString(templateName),"The required parameter templateName is missing or not a string."
+    Hoek.assert _.isFunction(cb2), "The required parameter cb2 is missing or not a function"    
 
     global_merge_vars = payload.global_merge_vars
     merge_vars = payload.merge_vars
@@ -48,7 +49,6 @@ module.exports.register = (server, options = {}, cb) ->
 
     templateName = templateNameMapping[templateName] || templateName # If it is mapped, take the mapped one, otherwise pass it 1:1
 
-    console.log "Mapped templateName: #{templateName}" if options.verbose
 
     sendTemplateOptions = 
       template_name: templateName
@@ -70,23 +70,19 @@ module.exports.register = (server, options = {}, cb) ->
     sendTemplateOptions.message.global_merge_vars = global_merge_vars if global_merge_vars
     sendTemplateOptions.message.merge_vars = merge_vars if merge_vars
 
-    success = (result) ->
-      console.log "Mandrill success: #{JSON.stringify(result)}" if options.verbose
+    server.log ['info','plugin','email-send','hapi-mandrill'],"Attempting to send email to #{options.senderEmail}", sendTemplateOptions if options.verbose
 
-      server.log ['mandrill','email-sent'],i18n.emailQueuedSuccess, result
+    success = (result) ->
+      server.log ['info','plugin','email-sent','hapi-mandrill','success'],"Successfully sent email to #{options.senderEmail}", result if options.verbose
       cb2 null,result
 
     error = (err) ->
-      console.log "Mandrill error: #{JSON.stringify(err)}" if options.verbose
-
-      server.log ['mandrill','email-not-sent','error'],i18n.emailNotQueuedFailure, err
+      server.log ['error','plugin','email-not-sent','hapi-mandrill','failure'],"Failed to send email to #{options.senderEmail} for reason #{err}",err if options.verbose
       cb2 err
 
     if mandrillClient
-      console.log "Sending to Mandrill: #{JSON.stringify(sendTemplateOptions)}" if options.verbose
       mandrillClient.messages.sendTemplate sendTemplateOptions, success,error
     else
-      console.log "Faking mandrill send" if options.verbose
       success {} # Mock mode, need to think about result
 
   server.expose 'mandrillClient', mandrillClient
